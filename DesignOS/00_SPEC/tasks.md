@@ -21,6 +21,8 @@ Todas las Tasks están en estado TODO. No implementan código; definen unidades 
 | DOS-TASK-013 | Validar Traceability e History | P0 | DOS-R016, DOS-R020, DOS-R021 | HISTORY / TRACEABILITY | 004, 005, 008 | DOS-TEST-016, 022 |
 | DOS-TASK-014 | Curar Knowledge y frontera Obsidian | P0 | DOS-R017, DOS-R018, DOS-R019 | KNOWLEDGE / OBSIDIAN CONNECTOR | 012 | DOS-TEST-017, 018, 019, 020, 021 |
 | DOS-TASK-015 | Bootstrap DesignOS Project | P0 | DOS-R022 | PROJECT / EXECUTION FOUNDATION | 001 | DOS-TEST-025 |
+| DOS-TASK-016 | Complete Spec revision model | P0 | DOS-R003 | SPEC MANAGEMENT / DOMAIN CORE | 003 DONE | DOS-TEST-026 |
+| DOS-TASK-017 | Persist Spec revisions and History | P0 | DOS-R003 | SPEC MANAGEMENT / HISTORY / SQLITE | 016 DONE | DOS-TEST-027 |
 
 ## Definición común de cada Task
 
@@ -29,6 +31,14 @@ Cada fila es una Task individual con ID, título, estado TODO, prioridad, Requir
 ### DOS-TASK-015 — Bootstrap DesignOS Project
 
 STATUS: DONE. OBJECTIVE: crear la foundation ejecutable y reproducible del proyecto. SCOPE: package.json, pnpm, lockfile, tsconfig, Zod, TypeScript, Vitest, estructura mínima source/tests y script de test. OUT OF SCOPE: Electron, React, SQLite, better-sqlite3, Playwright, entidades de dominio, adapters y UI. DEPENDENCIES: DOS-TASK-001 DONE. EXPECTED OUTPUT: entorno capaz de validar TypeScript, importar Zod y ejecutar smoke test Vitest. FUTURE TESTS: DOS-TEST-025. DEFINITION OF DONE: DOS-TEST-025 PASS, Foundation regression PASS y evidencia completa.
+
+### DOS-TASK-016 — Complete Spec revision model
+
+STATUS: TODO. OBJECTIVE: completar el modelo de dominio de Spec y sus revisiones sin persistencia. SCOPE: `src/core/spec/spec.schema.ts`, `src/core/spec/spec.types.ts`, `src/core/spec/spec.ts`, `tests/unit/spec.test.ts`. OUT OF SCOPE: SQLite, repositories, migrations, application services, Version/Release, Knowledge, Obsidian, UI y package files. DEPENDENCIES: DOS-TASK-003 DONE. EXPECTED OUTPUT: contrato de Spec y revisión validado, manteniendo compatibilidad con la API existente. FUTURE TESTS: DOS-TEST-026. DEFINITION OF DONE: DOS-TEST-026 PASS, TypeScript PASS, regresiones DOS-TEST-003, DOS-TEST-002, DOS-TEST-025 y DOS-TEST-001 PASS, Scope Leaks = 0 y evidencia registrada.
+
+### DOS-TASK-017 — Persist Spec revisions and History
+
+STATUS: TODO. OBJECTIVE: persistir snapshots de Spec y revisiones preservando History. SCOPE: `src/core/ports/spec.repository.ts`, `src/storage/sqlite/migrations/002-spec.sql`, `src/storage/sqlite/database.ts`, `src/storage/sqlite/repositories/sqlite-spec.repository.ts`, `tests/integration/spec-persistence.test.ts`. OUT OF SCOPE: modificar `001-foundation.sql`, RunRepository, runs, Version/Release, Knowledge, Obsidian, UI, package files y adapters externos. DEPENDENCIES: DOS-TASK-016 DONE. EXPECTED OUTPUT: repository port y adapter SQLite con Spec estable, revisión actual, History consultable y snapshots anteriores sin sobreescritura. FUTURE TESTS: DOS-TEST-027. DEFINITION OF DONE: DOS-TEST-027 PASS, DOS-TEST-026 PASS, DOS-TEST-022 y DOS-TEST-023 PASS, DOS-TEST-025 y DOS-TEST-001 PASS, TypeScript PASS, native load PASS, Scope Leaks = 0 y evidencia registrada.
 
 ## Alcance operativo de las Tasks MVP
 
@@ -66,3 +76,5 @@ STATUS: DONE. OBJECTIVE: crear la foundation ejecutable y reproducible del proye
 | DOS-TASK-013 | DOS-R016, DOS-R020, DOS-R021 | HISTORY / TRACEABILITY | DOS-TEST-016, 022 | P0 | YES |
 | DOS-TASK-014 | DOS-R017–R019 | KNOWLEDGE / OBSIDIAN | DOS-TEST-017–021 | P0 | YES |
 | DOS-TASK-015 | DOS-R022 | PROJECT / EXECUTION FOUNDATION | DOS-TEST-025 | P0 | YES |
+| DOS-TASK-016 | DOS-R003 | SPEC MANAGEMENT / DOMAIN CORE | DOS-TEST-026 | P0 | YES |
+| DOS-TASK-017 | DOS-R003 | SPEC MANAGEMENT / HISTORY / SQLITE | DOS-TEST-027 | P0 | YES |

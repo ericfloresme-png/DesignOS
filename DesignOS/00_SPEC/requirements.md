@@ -109,7 +109,7 @@ Todos los requisitos están en estado **DRAFT**. Esta fase define únicamente re
 **DESCRIPTION:** Relacionar un Test FAIL con un Issue y permitir que genere una Fix Task.  
 **PRIORITY:** MUST  
 **STATUS:** DRAFT  
-**DEPENDENCIES:** DOS-R008, DOS-R011.  
+**DEPENDENCIES:** DOS-R011.  
 **ACCEPTANCE CRITERIA:** El Issue registra el Test FAIL; el vínculo es consultable; se crea una Fix Task desde el Issue.
 
 ### DOS-R013
@@ -145,7 +145,7 @@ Todos los requisitos están en estado **DRAFT**. Esta fase define únicamente re
 **DESCRIPTION:** Rastrear Requirement → Design → Task → Run → Test → Evidence → Issue → Version → Release cuando aplique.  
 **PRIORITY:** MUST  
 **STATUS:** DRAFT  
-**DEPENDENCIES:** DOS-R005, DOS-R006, DOS-R007, DOS-R010, DOS-R011, DOS-R012, DOS-R013, DOS-R014, DOS-R015.  
+**DEPENDENCIES:** DOS-R005, DOS-R006, DOS-R007, DOS-R010, DOS-R011, DOS-R012, DOS-R013, DOS-R014.  
 **ACCEPTANCE CRITERIA:** Desde cada entidad se consultan sus relaciones; se identifican enlaces faltantes.
 
 ### DOS-R017
@@ -154,7 +154,7 @@ Todos los requisitos están en estado **DRAFT**. Esta fase define únicamente re
 **DESCRIPTION:** Consultar posteriormente conocimiento relevante desde Obsidian como memoria persistente.  
 **PRIORITY:** MUST  
 **STATUS:** DRAFT  
-**DEPENDENCIES:** DOS-R009, DOS-R018.  
+**DEPENDENCIES:** DOS-R018.  
 **ACCEPTANCE CRITERIA:** El contexto de Codex admite referencias a conocimiento relevante; no se define sincronización técnica en v0.1.
 
 ### DOS-R018
@@ -163,7 +163,7 @@ Todos los requisitos están en estado **DRAFT**. Esta fase define únicamente re
 **DESCRIPTION:** Identificar Specs consolidadas, Decisions, Standards, Lessons Learned, Releases, documentación y reglas para registro posterior en Obsidian.  
 **PRIORITY:** MUST  
 **STATUS:** DRAFT  
-**DEPENDENCIES:** DOS-R003, DOS-R015.  
+**DEPENDENCIES:** DOS-R003.  
 **ACCEPTANCE CRITERIA:** Cada elemento candidato tiene tipo, origen y contexto, separados de datos operativos.
 
 ### DOS-R019

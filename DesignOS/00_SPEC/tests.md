@@ -182,7 +182,7 @@ Cada resultado conserva Test ID, fecha, Version, input relevante, Expected, Actu
 | Requirement | Tests | Priority | Blocking | MVP |
 |---|---|---|---|---|
 | DOS-R001–R002 | 002, 022 | P0 | YES | YES |
-| DOS-R003 | 003, 022 | P0 | YES | YES |
+| DOS-R003 | 003, 022, 026, 027 | P0 | YES | YES |
 | DOS-R004–R005 | 004, 005, 016 | P0 | YES | YES |
 | DOS-R006 | 005 | P0 | YES | YES |
 | DOS-R007–R008 | 006, 011 | P0 | YES | YES |
@@ -204,7 +204,7 @@ No existe GAP de cobertura para Requirements MUST. DOS-R017, DOS-R018 y DOS-R013
 
 ## 7. Task Test Matrix
 
-tasks.md es todavía una plantilla y no contiene IDs reales. No se inventan filas. GAP: al definir Tasks, cada Task deberá mapearse a Future Test, Requirement y Module; una Task sin esa relación no podrá pasar a READY.
+La matriz incluye Tasks MVP y las Tasks planificadas de DOS-INC-002. Cada Task deberá mapearse a Future Test, Requirement y Module; una Task sin esa relación no podrá pasar a READY.
 
 ## 8. Objective Quality Gate Tests
 
@@ -235,7 +235,7 @@ FOUNDATION → UNIT → INTEGRATION → FLOW → REGRESSION → QUALITY GATE
 
 ## 11. Gaps, contradicciones y validación final
 
-La Task Test Matrix está completa para las 14 Tasks MVP en tasks.md. RELATED TASKS de cada registro de Test deberá materializarse durante la implementación usando esa matriz como fuente normativa.
+La Task Test Matrix está completa para las 16 Tasks MVP y planificadas en tasks.md. RELATED TASKS de cada registro de Test deberá materializarse durante la implementación usando esa matriz como fuente normativa.
 
 No se detectan GAPS de cobertura Task → Test para las Tasks MVP. Las definiciones concretas de Evidence obligatoria e Issue crítico quedan fijadas por el Quality Gate de esta sección.
 
@@ -260,6 +260,8 @@ No se detectan GAPS de cobertura Task → Test para las Tasks MVP. Las definicio
 | DOS-TEST-021 | DOS-TASK-007, DOS-TASK-014 |
 | DOS-TEST-023 | DOS-TASK-007, DOS-TASK-008 |
 | DOS-TEST-FOUNDATION-FLOW | DOS-TASK-001, DOS-TASK-002, DOS-TASK-004, DOS-TASK-006, DOS-TASK-007, DOS-TASK-008, DOS-TASK-009, DOS-TASK-010, DOS-TASK-012, DOS-TASK-014 |
+| DOS-TEST-026 | DOS-TASK-016 |
+| DOS-TEST-027 | DOS-TASK-017 |
 
 Todos los Tests de comportamiento del MVP tienen al menos una Task relacionada mediante esta matriz. No se conserva NONE para un Test de comportamiento; el vínculo de cada registro se interpreta con esta tabla normativa.
 
@@ -270,3 +272,15 @@ TYPE: FOUNDATION | RELATED REQUIREMENTS: DOS-R022 | RELATED TASKS: DOS-TASK-015 
 OBJECTIVE: Validar la foundation ejecutable reproducible.  
 PRECONDITIONS: DOS-TEST-001 PASS y pnpm disponible. INPUT: package.json, pnpm-lock.yaml, tsconfig.json y smoke test. STEPS: resolver dependencias con pnpm, validar TypeScript, importar Zod, ejecutar Vitest y repetir DOS-TEST-001.  
 EXPECTED RESULT: package manager, lockfile, TypeScript, Zod y Vitest funcionan; Foundation permanece válida. PASS CRITERIA: todos los pasos PASS. FAIL CRITERIA: cualquier resolución, importación, check, test o Foundation check falla. EVIDENCE REQUIRED: versiones, logs, lockfile, output y resultados. REGRESSION: YES. PRIORITY: P0. BLOCKING: BLOCKING.
+
+### DOS-TEST-026 — Spec revision domain contract
+TYPE: UNIT | RELATED REQUIREMENTS: DOS-R003 | RELATED TASKS: DOS-TASK-016 | RELATED MODULE: SPEC MANAGEMENT / DOMAIN CORE  
+OBJECTIVE: Validar identidad estable de Spec, asociación a System, campos obligatorios, revisión inicial, incremento de revisión y rechazo de entradas inválidas.  
+PRECONDITIONS: DOS-TEST-003 PASS y modelo Spec existente. INPUT: Spec inicial válida, cambios válidos y payloads inválidos. STEPS: crear Spec, validar schema, crear una revisión posterior y comprobar que el objeto de revisión anterior no cambia semánticamente.  
+EXPECTED RESULT: Spec válida y revisiones válidas se aceptan; entradas inválidas se rechazan; la identidad de Spec y la asociación System permanecen. PASS CRITERIA: contrato R003 de dominio completo. FAIL CRITERIA: pérdida de identidad, revisión inválida o aceptación silenciosa de payload inválido. EVIDENCE REQUIRED: casos deterministas y resultados. REGRESSION: YES. PRIORITY: P0. BLOCKING: BLOCKING.
+
+### DOS-TEST-027 — Spec revision persistence and History
+TYPE: INTEGRATION | RELATED REQUIREMENTS: DOS-R003 | RELATED TASKS: DOS-TASK-017 | RELATED MODULE: SPEC MANAGEMENT / HISTORY / SQLITE  
+OBJECTIVE: Validar persistencia de Spec, revisión actual, snapshots históricos, orden determinista y recuperación tras reabrir la base de datos.  
+PRECONDITIONS: DOS-TEST-026 PASS y SQLite disponible. INPUT: Spec inicial, revisión posterior y base temporal/reabierta. STEPS: guardar inicial, guardar revisión posterior, consultar actual e History, cerrar/reabrir y consultar nuevamente.  
+EXPECTED RESULT: la revisión anterior permanece semánticamente igual, la actual se identifica por número de revisión y todos los registros sobreviven a reapertura. PASS CRITERIA: persistencia y History completos. FAIL CRITERIA: snapshot sobrescrito, orden ambiguo, datos perdidos o ruptura de runs existentes. EVIDENCE REQUIRED: registros before/after, History y logs de reapertura. REGRESSION: YES. PRIORITY: P0. BLOCKING: BLOCKING.

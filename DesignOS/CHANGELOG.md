@@ -1,5 +1,32 @@
 # Changelog
 
+## DesignOS v0.2.0-spec-foundation — STABLE
+
+### Added
+
+- Spec revision model with stable Spec identity and deterministic revision ordering.
+- Durable Spec History through the SpecRepository Port and SQLite Spec repository.
+- `002-spec` migration for persisted Spec revisions.
+
+### Changed
+
+- DOS-R003 coverage advanced from PARTIAL to FULL.
+- Stable capability baseline expanded from basic Spec representation to persisted, revisable Specs.
+
+### Tests
+
+- Current baseline: 12 files, 32 tests, 32 PASS, 0 FAIL, 0 SKIPPED.
+- INC-001 regression: 27 / 27 PASS.
+- TypeScript, migration, Spec persistence, Run persistence and SQLite native validation: PASS.
+
+### Known Process Finding
+
+- DOS-TASK-017 initial test-first execution was not captured; LOW, accepted for Stable.
+
+### Deferred
+
+- Version Engine, Release Engine, Issue/Fix Flow, Knowledge/Obsidian runtime, UI, external adapters and architectural executors.
+
 ## DesignOS v0.1.0-foundation — STABLE
 
 ### Added
