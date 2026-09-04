@@ -12,8 +12,13 @@ import { TaskSchema } from '../../../core/task/task.schema';
 import { RunSchema } from '../../../core/run/run.schema';
 import { TestResultSchema } from '../../../core/test-result/test-result.schema';
 import type { HistoryEntry, ProjectFlowRepository, TraceabilityRecord } from '../../../core/ports/project-flow.repository';
+import type { ExecutionRepository, ExtendedTraceability } from '../../../core/execution/execution-repository';
+import type { ExecutorDefinition } from '../../../core/execution/executor-definition';
+import type { ExecutionRequest } from '../../../core/execution/execution-request';
+import type { ExecutionResult } from '../../../core/execution/execution-result';
+import type { Artifact } from '../../../core/artifact/artifact';
 
-export class SqliteProjectFlowRepository implements ProjectFlowRepository {
+export class SqliteProjectFlowRepository implements ProjectFlowRepository, ExecutionRepository {
   private readonly database: DatabaseConnection;
 
   public constructor(filename: string) { this.database = createDatabase(filename); }
@@ -74,6 +79,13 @@ export class SqliteProjectFlowRepository implements ProjectFlowRepository {
     const rows = this.database.prepare('SELECT id, entity_type, entity_id, operation, context, created_at FROM history_entries ORDER BY rowid ASC').all() as Array<{ id: string; entity_type: string; entity_id: string; operation: string; context: string; created_at: string }>;
     return rows.map((row) => ({ id: row.id, entityType: row.entity_type, entityId: row.entity_id, operation: row.operation, context: row.context, createdAt: row.created_at }));
   }
+
+  public saveExecutor(definition: ExecutorDefinition): void { this.database.prepare('INSERT INTO executors (id, payload) VALUES (?, ?) ON CONFLICT(id) DO UPDATE SET payload = excluded.payload').run(definition.id, JSON.stringify(definition)); this.record('EXECUTOR', definition.id, 'REGISTER', definition.kind); }
+  public saveRequest(request: ExecutionRequest): void { this.requireRun(request.runId); this.database.prepare('INSERT INTO execution_requests (id, executor_id, run_id, payload) VALUES (?, ?, ?, ?)').run(request.id, request.executorId, request.runId, JSON.stringify(request)); this.record('EXECUTION_REQUEST', request.id, 'CREATE', request.executorId); }
+  public saveResult(result: ExecutionResult): void { this.database.prepare('INSERT INTO execution_results (id, request_id, payload) VALUES (?, ?, ?)').run(result.id, result.requestId, JSON.stringify(result)); this.record('EXECUTION_RESULT', result.id, 'CREATE', result.status); }
+  public saveArtifact(artifact: Artifact): void { this.requireRun(artifact.runId); this.database.prepare('INSERT INTO artifacts (id, run_id, producer, payload) VALUES (?, ?, ?, ?)').run(artifact.id, artifact.runId, artifact.producer, JSON.stringify(artifact)); this.record('ARTIFACT', artifact.id, 'CREATE', artifact.runId); }
+  public linkArtifactValidation(artifactId: string, testResult: TestResult, evidence: Evidence): void { const artifact = this.database.prepare('SELECT id FROM artifacts WHERE id = ?').get(artifactId); if (!artifact) throw new Error(`Artifact not found: ${artifactId}`); this.database.prepare('INSERT INTO artifact_validations (artifact_id, test_result_id, evidence_id) VALUES (?, ?, ?)').run(artifactId, testResult.id, evidence.id); this.record('ARTIFACT_VALIDATION', artifactId, 'LINK', testResult.id); }
+  public getExtendedTraceability(projectId: string): ExtendedTraceability { const base = this.getTraceability(projectId); const row = this.database.prepare('SELECT ex.payload AS executor, a.payload AS artifact FROM executors ex JOIN execution_requests rq ON rq.executor_id = ex.id JOIN execution_results rr ON rr.request_id = rq.id JOIN artifacts a ON a.id IN (SELECT json_each.value FROM json_each(rr.payload, \'$.artifacts\')) JOIN flow_runs fr ON fr.run_id = rq.run_id JOIN project_tasks pt ON pt.task_id = fr.task_id WHERE pt.project_id = ? LIMIT 1').get(projectId) as { executor: string; artifact: string } | undefined; if (!row) throw new Error(`Incomplete execution traceability for project: ${projectId}`); return { ...base, executor: JSON.parse(row.executor) as ExecutorDefinition, artifact: JSON.parse(row.artifact) as Artifact }; }
 
   public close(): void { this.database.close(); }
 
