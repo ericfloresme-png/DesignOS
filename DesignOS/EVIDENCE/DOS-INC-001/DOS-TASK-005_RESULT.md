@@ -1,0 +1,42 @@
+# DOS-TASK-005 — Design Traceability Evidence
+
+- Task ID: DOS-TASK-005
+- Title: Documentar Design traceable
+- Related Requirements: DOS-R006, DOS-R016
+- Related Test: DOS-TEST-005
+- Dependencies: DOS-TASK-004 DONE
+- Git Baseline: branch `master`; repository status before change reported `?? ./`. Existing repository content was untracked; no prior changes were deleted or overwritten.
+- Files Created:
+  - `src/core/design/design.schema.ts`
+  - `src/core/design/design.types.ts`
+  - `src/core/design/design.ts`
+  - `tests/unit/design.test.ts`
+- Files Modified: none.
+- Packages Installed: NONE. Existing zod, TypeScript and vitest were used.
+- Test-first Initial Result: FAIL — Design module did not exist before implementation.
+- Implementation Summary: Added a Domain Core Design model associated with a Spec, linked to Requirement IDs, containing decisions, constraints, status and timestamps. Added structural schema validation and a minimal `coversRequirement` contract for Requirement→Design coverage. No global traceability engine or persistence was introduced.
+- Commands Executed:
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/design.test.ts`
+  - `\.\node_modules\.bin\tsc.CMD --noEmit`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/requirement.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/spec.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/system.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/smoke/bootstrap.test.ts`
+  - `\.\TESTS\check_structure.ps1`
+- Specific Test Result: DOS-TEST-005 PASS — 3 tests passed, 0 failed, 0 skipped.
+- TypeScript Check: PASS.
+- Regression Results:
+  - DOS-TEST-004: PASS — 4 tests passed.
+  - DOS-TEST-003: PASS — 3 tests passed.
+  - DOS-TEST-002: PASS — 3 tests passed.
+  - DOS-TEST-025: PASS — 1 test passed.
+  - DOS-TEST-001: PASS.
+- Errors: None remaining. No implementation error occurred during final execution.
+- Warnings: Git baseline contains untracked repository content.
+- Diff Summary: Four authorized files created; no existing files modified.
+- Scope Validation: SCOPE LEAKS = 0. Files are limited to the approved Design model and test paths.
+- Architecture Validation: ARCHITECTURE VIOLATIONS = 0. Design depends only on Zod and local domain types; no Electron, React, SQLite, better-sqlite3, filesystem, Codex, Obsidian or Git dependency was introduced.
+- Circular Dependency Validation: NEW CIRCULAR DEPENDENCIES = 0. `design.ts` depends on local schema/types only; no reverse or cross-module cycle was introduced.
+- Definition of Done: PASS — Requirements satisfied, DOS-TEST-005 and all required regressions PASS, TypeScript PASS, scope and architecture respected, and evidence registered.
+- Final Status: DOS-TASK-005 DONE.
+

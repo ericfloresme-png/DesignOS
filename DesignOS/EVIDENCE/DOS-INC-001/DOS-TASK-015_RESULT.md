@@ -1,0 +1,24 @@
+# DOS-TASK-015 — Bootstrap Evidence
+
+- Task ID: DOS-TASK-015
+- Requirement: DOS-R022
+- Test: DOS-TEST-025
+- Files Created: package.json, tsconfig.json, tests/smoke/bootstrap.test.ts
+- Files Modified: none
+- Packages Installed: zod 4.5.4, typescript 5.9.3, vitest 3.2.7
+- Command Attempted: pnpm install --lockfile-only=false
+- Original Result: FAIL — UNABLE_TO_VERIFY_LEAF_SIGNATURE while accessing registry.npmjs.org
+- TLS Diagnosis: Windows System CA resolved registry access for the process
+- Root Cause Classification: NODE_SYSTEM_CA_NOT_ENABLED
+- Registry: https://registry.npmjs.org/
+- System CA Used: YES
+- Custom CA Used: NO
+- Security Validation Disabled: NO
+- Result: PASS after secure CA remediation
+- Warnings: pnpm reported an available update; no upgrade performed
+- Lockfile: pnpm-lock.yaml generated
+- Tests Executed: TypeScript check, DOS-TEST-025, DOS-TEST-001 regression
+- Results: PASS, PASS, PASS
+- Diff Summary: bootstrap manifests, lockfile, workspace metadata and smoke test created
+- Notes: NODE_USE_SYSTEM_CA=1 was process-scoped only. No TLS bypass or unapproved package source was used.
+- Warnings: pnpm generated pnpm-workspace.yaml during installation; it is package-manager metadata and contains no secrets.

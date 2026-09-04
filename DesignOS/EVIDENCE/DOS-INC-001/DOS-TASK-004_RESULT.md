@@ -1,0 +1,39 @@
+# DOS-TASK-004 — Requirement Model Evidence
+
+- Task ID: DOS-TASK-004
+- Title: Definir modelo Requirement
+- Related Requirements: DOS-R004, DOS-R005
+- Related Test: DOS-TEST-004
+- Dependencies: DOS-TASK-003 DONE
+- Git Baseline: branch `master`; repository status before implementation reported `?? ./` and `?? DesignOS/` (the repository content was untracked at baseline). No existing user changes were deleted or overwritten.
+- Files Created:
+  - `src/core/requirement/requirement.schema.ts`
+  - `src/core/requirement/requirement.types.ts`
+  - `src/core/requirement/requirement.ts`
+  - `tests/unit/requirement.test.ts`
+- Files Modified: none outside the four authorized files; no System, Spec, Requirements, Design, Tasks, Tests specification, package or configuration files modified.
+- Packages Installed: NONE
+- Test-first Initial Result: FAIL — Requirement module did not exist before implementation.
+- Implementation Summary: Added a Zod-validated Requirement model with required identity, title, description, priority, status, Spec relation, acceptance criteria, dependency and domain relation ID collections, revision and timestamps. Added minimal create/update functions. Relation IDs are represented and structurally validated; global existence checks, repositories and cycle detection are out of scope.
+- Commands Executed:
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/requirement.test.ts`
+  - `\.\node_modules\.bin\tsc.CMD --noEmit`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/spec.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/system.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/smoke/bootstrap.test.ts`
+  - `\.\TESTS\check_structure.ps1`
+- DOS-TEST-004 Result: PASS — 4 tests passed, 0 failed.
+- TypeScript Check: PASS.
+- Regression Results:
+  - DOS-TEST-003: PASS — 3 tests passed.
+  - DOS-TEST-002: PASS — 3 tests passed.
+  - DOS-TEST-025: PASS — 1 test passed.
+  - DOS-TEST-001: PASS.
+- Errors: Initial implementation run found a local TypeScript generic-closing syntax error in `requirement.ts`; corrected within the authorized file before final tests. No remaining errors.
+- Warnings: Git baseline contains untracked repository content; no package installation was required.
+- Diff Summary: Four authorized files created; no unrelated source or specification changes.
+- Scope Validation: SCOPE LEAKS = 0. Product files are limited to the four Files To Create in the Execution Packet.
+- Architecture Validation: ARCHITECTURE VIOLATIONS = 0. Domain Core code depends only on Zod and local domain types; no Electron, React, SQLite, better-sqlite3, filesystem, Codex, Obsidian, Git, repository or application-service dependency was introduced.
+- Circular Dependency Validation: NEW CIRCULAR DEPENDENCIES = 0. Dependency direction is `requirement.ts → requirement.schema.ts` and `requirement.types.ts`; no reverse imports or cross-entity cycle were introduced.
+- Definition of Done: PASS — DOS-R004 and DOS-R005 model scope satisfied, specific and regression tests PASS, TypeScript PASS, scope and architecture checks PASS, evidence registered, and Execution Packet respected.
+- Final Status: DOS-TASK-004 DONE.

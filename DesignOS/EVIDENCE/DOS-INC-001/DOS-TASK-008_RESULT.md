@@ -1,0 +1,60 @@
+# DOS-TASK-008 — Run Persistence Evidence
+
+- Task: DOS-TASK-008 — Registrar Run
+- Requirements: DOS-R010, DOS-R020
+- Tests: DOS-TEST-009, DOS-TEST-022, DOS-TEST-023
+- Dependencies: DOS-TASK-007 DONE
+- Git Baseline: branch `master`; repository status before change reported `?? ./`. Existing repository content was untracked; no prior changes were deleted or overwritten.
+- Files Created:
+  - `src/core/run/run.schema.ts`
+  - `src/core/run/run.types.ts`
+  - `src/core/run/run.ts`
+  - `src/core/ports/run.repository.ts`
+  - `src/storage/sqlite/migrations/001-foundation.sql`
+  - `src/storage/sqlite/database.ts`
+  - `src/storage/sqlite/repositories/sqlite-run.repository.ts`
+  - `src/application/run/create-run.ts`
+  - `tests/unit/run.test.ts`
+  - `tests/integration/run-persistence.test.ts`
+- Files Modified: `package.json` and `pnpm-lock.yaml` only, authorized exclusively for the approved dependency installation.
+- Packages Installed: `better-sqlite3` only.
+- Package Versions: better-sqlite3 13.0.3; existing zod 4.5.4, TypeScript 5.9.3 and vitest 3.2.7. Additional packages: 0.
+- Install Command: `$env:NODE_USE_SYSTEM_CA='1'; pnpm add better-sqlite3`
+- TLS Environment: `NODE_USE_SYSTEM_CA=1` used process-scoped for pnpm registry access. TLS validation was not disabled; no `strict-ssl=false` or `NODE_TLS_REJECT_UNAUTHORIZED=0` used.
+- Test-first Initial Result: FAIL — Run model/repository modules did not exist before implementation.
+- Run Model: Zod-validated Run representation with ID, Task/System references, Context Pack, optional Version reference, origin, approved status set, result, timestamps, errors, modified files, Test/Evidence references and status history. No Codex execution was performed.
+- Port: `RunRepository` exposes only `save` and `findById` in DesignOS terms; it exposes no SQL, database handle or better-sqlite3 type.
+- SQLite Adapter: `SqliteRunRepository` implements `RunRepository`, persists the serialized validated Run and reads it back through `RunSchema`; database resources are explicitly closed.
+- SQLite Schema: one table only — `runs`. No future entity tables were created.
+- Native Module Smoke Test: PASS — better-sqlite3 loaded, opened `:memory:`, executed `SELECT 1`, and closed.
+- Specific Tests:
+  - DOS-TEST-009: PASS — 2 unit tests.
+  - DOS-TEST-022: PASS — covered by the persistence/recovery integration suite; 2 integration tests.
+  - DOS-TEST-023: PASS — covered by the persistence/recovery integration suite; 2 integration tests.
+  - Combined specific Run suite: 4 tests passed, 0 failed, 0 skipped.
+- TypeScript Check: PASS — `\.\node_modules\.bin\tsc.CMD --noEmit`.
+- Regression Results:
+  - DOS-TEST-007 and DOS-TEST-008: PASS — 4 Context Pack tests.
+  - DOS-TEST-021: PASS — included in Context Pack integration coverage.
+  - DOS-TEST-006: PASS — 2 tests.
+  - DOS-TEST-005: PASS — 3 tests.
+  - DOS-TEST-004: PASS — 4 tests.
+  - DOS-TEST-003: PASS — 3 tests.
+  - DOS-TEST-002: PASS — 3 tests.
+  - DOS-TEST-025: PASS — 1 test.
+  - DOS-TEST-001: PASS.
+- Errors: Initial implementation exposed a local generic-closing syntax error and a readonly Context Pack type mismatch; both were corrected within authorized Run files. Final execution has no errors.
+- Warnings: pnpm reported ignored build scripts for better-sqlite3/esbuild; native smoke test nevertheless passed. Git baseline contains untracked repository content.
+- Manifest Changes: package.json added only `better-sqlite3`; pnpm-lock.yaml records only its corresponding resolution. No additional dependency was added.
+- Diff Summary: Ten authorized Run/port/storage/application/test files created; two authorized package manifests changed; no previous product source or specification file modified.
+- Scope Validation: SCOPE LEAKS = 0. All product files match the approved Files To Create list; manifest changes match the explicit package-installation allowance. node_modules remains a local generated artifact.
+- Architecture Validation:
+  - DOMAIN CORE imports better-sqlite3: 0
+  - DOMAIN CORE imports SQLite adapter: 0
+  - PORT depends on adapter: NO
+  - Adapter implements port: YES
+  - ARCHITECTURE VIOLATIONS: 0
+- Circular Dependency Validation: NEW CIRCULAR DEPENDENCIES = 0. Dependencies flow Domain → Port; SQLite adapter → Port/Domain; application → Port/Domain.
+- Definition of Done: PASS — DOS-R010/DOS-R020 scope satisfied, Run persistence and native load PASS, all specific/regression tests and TypeScript PASS, domain isolation preserved, scope respected, and evidence registered.
+- Final Status: DOS-TASK-008 DONE.
+

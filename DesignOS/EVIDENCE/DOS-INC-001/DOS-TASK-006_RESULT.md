@@ -1,0 +1,45 @@
+# DOS-TASK-006 — Task and Readiness Evidence
+
+- Task ID: DOS-TASK-006
+- Title: Definir Task y readiness
+- Related Requirements: DOS-R007
+- Related Test: DOS-TEST-006
+- Dependencies: DOS-TASK-005 DONE
+- Git Baseline: branch `master`; repository status before change reported `?? ./`. Existing repository content was untracked; no prior changes were deleted or overwritten.
+- Files Created:
+  - `src/core/task/task.schema.ts`
+  - `src/core/task/task.types.ts`
+  - `src/core/task/task.ts`
+  - `tests/unit/task.test.ts`
+- Files Modified: none.
+- Packages Installed: NONE. Existing zod, TypeScript and vitest were used.
+- Test-first Initial Result: FAIL — Task module did not exist before implementation.
+- Implementation Summary: Added a Zod-validated Task model with System and Requirement IDs, module, objective, scope, out-of-scope, constraints, dependencies, expected output, Future Tests, Definition of Done, status and timestamps. Added separate readiness semantics: creation starts at TODO and `markTaskReady` permits READY only when the required Task context is complete. No filesystem, package, Codex, scheduler, graph or cycle checks were added.
+- Commands Executed:
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/task.test.ts`
+  - `\.\node_modules\.bin\tsc.CMD --noEmit`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/design.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/requirement.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/spec.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/unit/system.test.ts`
+  - `\.\node_modules\.bin\vitest.CMD run tests/smoke/bootstrap.test.ts`
+  - `\.\TESTS\check_structure.ps1`
+- Specific Test Result: DOS-TEST-006 PASS — 2 tests passed, 0 failed, 0 skipped.
+- TypeScript Check: PASS.
+- Regression Results:
+  - DOS-TEST-005: PASS — 3 tests passed.
+  - DOS-TEST-004: PASS — 4 tests passed.
+  - DOS-TEST-003: PASS — 3 tests passed.
+  - DOS-TEST-002: PASS — 3 tests passed.
+  - DOS-TEST-025: PASS — 1 test passed.
+  - DOS-TEST-001: PASS.
+- Errors: None remaining.
+- Warnings: Git baseline contains untracked repository content.
+- Diff Summary: Four authorized files created; no existing files modified.
+- Scope Validation: SCOPE LEAKS = 0. Product files are limited to the four Files To Create in the Execution Packet.
+- Architecture Validation: ARCHITECTURE VIOLATIONS = 0. Domain Core code depends only on Zod and local domain types; no Electron, React, SQLite, better-sqlite3, filesystem, Codex, Obsidian or Git dependency was introduced.
+- Circular Dependency Validation: NEW CIRCULAR DEPENDENCIES = 0. `task.ts` depends on local schema/types only; no reverse or cross-module cycle was introduced.
+- Readiness Semantics: VALID. Task status and readiness are distinct; status is TODO at creation and READY is allowed only for complete Task data.
+- Definition of Done: PASS — Requirement satisfied, DOS-TEST-006 and all required regressions PASS, TypeScript PASS, scope/readiness/architecture respected, and evidence registered.
+- Final Status: DOS-TASK-006 DONE.
+

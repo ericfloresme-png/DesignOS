@@ -1,0 +1,22 @@
+# DOS-TASK-003 — Spec Model Evidence
+
+- Task ID: DOS-TASK-003
+- Title: Definir modelo Spec
+- Requirements: DOS-R003
+- Related Test: DOS-TEST-003
+- Dependencies: DOS-TASK-002 DONE
+- Files Created: src/core/spec/spec.schema.ts, src/core/spec/spec.types.ts, src/core/spec/spec.ts, tests/unit/spec.test.ts
+- Files Modified: none
+- Packages Installed: none
+- Test-first Result: FAIL — módulo Spec inexistente antes de implementación
+- Implementation Summary: Spec model with Zod schema, typed status, System relation, revision and update behavior
+- Specific Test: DOS-TEST-003 PASS — 3 tests
+- TypeScript Check: PASS
+- Regression: DOS-TEST-002 FAIL — pre-existing System timestamp flakiness; DOS-TEST-025 PASS; DOS-TEST-001 PASS
+- Errors: updatedAt can equal createdAt during same-millisecond System update
+- Warnings: correcting this requires modifying src/core/system/system.ts, forbidden by this Task packet
+- Diff Summary: four authorized files created; no existing files modified
+- Scope Validation: SCOPE LEAKS = 0
+- Architecture Validation: no forbidden dependency introduced
+- Definition of Done: FAIL because required regression DOS-TEST-002 failed
+- Final Status: BLOCKED
